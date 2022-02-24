@@ -1,89 +1,64 @@
 // Assignment code here
+var pwLength = 8;
+var pwChar = [];
+var includeLower = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var includeUpper = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+var includeNumber = ['1', '2', '3', '4', '5', '6', '7','8', '9', '0'];
+var includeSymbol = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')'];
 
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
+
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
-var pwLength = "";
-var pwChar = []
-var includeLower;
-var includeUpper;
-var includeNumber;
-var includeSymbol;
-
+// 2. Validate the input.
 function writePassword () {
-    var promptAnswers = rightPrompts ();
+    var promptAnswers = userPrompts ();
     if(promptAnswers) {
-    var userPassword = generatePassword();
-    var passwordText = document.querySelector("#password");
-    passwordText.value = userPassword;
+        var userPassword = generatePassword();
+        var passwordText = document.querySelector("#password");
+        passwordText.value = userPassword;
     }
     else {
-        userPassword.value = "";
+    passwordText.value = "";
     }
-
+// 3. Generate password based on criteria.
 function generatePassword() {
     var userPassword = "";
     for (var i = 0; i < pwLength; i++) {
-        var rndmPassword = Math.floor(Math.random() * pwLength);
-        password = password + pwChar[rndmPassword]
-        
+        var rndmPassword = Math.floor(Math.random() * pwChar.length);
+        userPassword = userPassword + pwChar[rndmPassword];
+    // 4. Display the generated password on the page.xx
     }
     return userPassword;
     }
 }
-function rightPrompts() {
+function userPrompts() {
+    pwChar = [];
     // 1. Need to prompt the user with password criteria
     //      a. Password length 8 - 52 Characters
-    var pwLength = parseInt((window.prompt("Please specify your desired password length between 8 and 128")));
+    pwLength = parseInt(window.prompt("Please specify your desired password length between 8 and 128"));
 
     if (isNaN(pwLength) || pwLength < 8 || pwLength > 128) {
         window.alert ("Please select a number from the range provided! Try again");
         return false;
     }
-    //      b. Include lower case upper case numbers special characters
-    var includeLower =  window.confirm("Click 'OK' to include lower case letters in your password?"); {
-        if (includeLower) {
-            pwChar = pwChar.concat(getRndmLower)
-        }
-        function getRndmLower() {
-        return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-        }
+    //promtp user to select desired character values.    
+    if (window.confirm("Would you like to include lowercase letters?")) {
+        pwChar = pwChar.concat(includeLower);
     }
-    var includeUpper =  window.confirm("Click 'OK' to inlude upper case letters in your password?"); {
-        if (includeUpper) {
-            pwChar = pwChar.concat([getRndmUpper])
-        }
-        function getRndmUpper() {
-            return String.fromCharCode(Math.floor(Math.random() *26 ) + 65);
-        }
-        }
-        var includeNumber =  window.confirm("Click 'OK' to inlude numbers in your password?"); {
-        if (includeNumber) {
-           pwChar = pwChar.concat([getRndmNumber])
-           }
-           function getRndmNumber() {
-            return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-        }        
-        }
-        var includeSymbol =  window.confirm("Click 'OK' to inlude symbols in your password?"); {
-            if (includeSymbol) {
-            pwChar = pwChar.concat([getRndmSymbol])
-            }     
-            function getRndmSymbol() {
-            const symbols = "!@#$%^&*(){}[]=<>/,.";
-            return symbols[Math.floor(Math.random() * symbols.length)];
-            }
-        }    
-    // 2. Validate the input.
-    while(getRndmLower === false && getRndmUpper === false && getRndmNumber === false && getRndmSymbol === false) {
-    window.alert ("Please select AT LEAST one criteria for password to generate")
+    if (window.confirm("Click 'OK' to include uppercase letters in your password?")) {
+            pwChar = pwChar.concat(includeUpper);
     }
-// 4. Display the generated password on the page.
+    if (window.confirm("Click 'OK' to include numbers in your password?")) {
+        pwChar = pwChar.concat(includeNumber);
+    }
+    if (window.confirm("Click 'OK' to include symbols in your password?")) {
+        pwChar = pwChar.concat(includeSymbol);
+    }
+    return true;
+    
+
 }
-// 3. Generate password based on criteria.
-
-// Write password to the #password input
-
